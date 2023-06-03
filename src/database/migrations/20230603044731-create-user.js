@@ -23,6 +23,16 @@ module.exports = {
       },
       photo:{
         type: Sequelize.BLOB
+      },
+      roleId:{
+        type: Sequelize.UUID,
+        allowNull: true,
+        references:{
+          model: 'roles',
+          key: 'id'
+        },
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE'
       }
     },{
       timestamps: false
