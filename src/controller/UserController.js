@@ -6,7 +6,6 @@ const UserService = require('../services/UserService');
 const userService = new UserService();
 
 class UserController {
-
     static async createUser(request, response){
         try{
             
@@ -33,6 +32,8 @@ class UserController {
         
     }
 
+    // metodos para o adm gerenciar os usuarios
+    //-----------------------------------------------------------------------------------------------------------------------------------------------
     static async updateUser(request, response) {
         try {
             const { id } = request.params;
@@ -48,7 +49,7 @@ class UserController {
 
             if(errorResponse){
                 return response.status(400).json(errorResponse);
-            } 
+            }  
             const updateFields = {};
 
             const fields = { name, lastname, nickname, email };
@@ -105,7 +106,66 @@ class UserController {
             response.status(404).json({message: error.message});
         }
     }
+ //---------------------------------------------------------------
+// Endpoints públicos ao usuario. 
+    static async infoUser(request, response){
+        const{userId} = request;
+        try{
+            const user = await userService.getById(userId);
 
+            return response.status(200).json(user);
+
+        }catch(error){
+            console.error(error)
+            response.status(404).json(error.message);
+        }
+    }
+
+    static async updateMe(request, response){
+        const{userId} = request;
+        const { name, lastname, nickname, email} = request.body;
+        try {
+            await body('email').optional().isEmail().normalizeEmail().withMessage("Email inválido!").run(request);
+            await body('name').optional({checkFalsy: true }).matches(/^[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ\s ]+$/).withMessage('Campo nome deve conter apenas letras!').run(request);
+            await body('lastname').optional({checkFalsy: true }).matches(/^[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ\s ]+$/).withMessage('Campo último nome deve conter apenas letras!').run(request);
+            await body('nickname').optional().isAlphanumeric().isLength({ min: 5 }, {max:12 }).withMessage('Campo nickname deve conter apenas letras e números, seu tamanho deve está compreendido entre 5 e 12 caracteres!').run(request);
+             
+        
+            const errorResponse = errorsValidator(request);
+
+            if(errorResponse){
+                return response.status(400).json(errorResponse);
+            } 
+            const updateFields = {};
+
+            const fields = { name, lastname, nickname, email };
+    
+            for (const key in fields) {
+                if (fields[key]) {
+                    updateFields[key] = fields[key];
+                }
+            }
+            const user = await userService.update(userId, updateFields)
+
+            return response.status(200).json(user);            
+    
+        } catch (error) {
+            console.error(error)
+            return response.status(404).json(error.message);
+        }
+    }
+
+    static async deleteMe(request,response){
+        const{userId} = request;
+        try{
+            await userService.deleteById(userId);
+
+            return response.sendStatus(204);
+        }catch(error){
+            console.error(error)
+            response.status(404).json({message: error.message});
+        }
+    }
     
 }
 
