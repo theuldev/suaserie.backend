@@ -59,7 +59,6 @@ class UserController {
                 }
             }
             const user = await userService.update(id, updateFields)
-            console.log("updateField", updateFields.name);
 
             return response.status(200).json(user);            
     

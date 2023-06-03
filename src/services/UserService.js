@@ -13,17 +13,20 @@ class UserService{
             if(user){
                 throw new Error("Email já cadastrado no sistema!");    
             }
+
+            const role  = await getRole(); 
+            
             const passwordHash = await hash(userDTO.password, 8);
-            console.log(userDTO.password);
-            console.log('hash: ', passwordHash);
             const newUser  = await database.user.create({
                 id: UUID.v4(),
                 name: userDTO.name,
                 nickname: userDTO.nickname,
                 lastname: userDTO.lastname,
                 email: userDTO.email,
-                password: passwordHash
+                password: passwordHash,
+                roleId: role.id
             })
+        
             return newUser;
             
             
@@ -73,7 +76,6 @@ class UserService{
 
     async update(id, updateFields){ // Refatorar depois, possui três chamadas ao banco de dados. 
         const user = await this.getById(id);
-        console.log(updateFields.email);
         try {            
             await database.user.update(updateFields, { where: { id: id }, returning: true });
             return await database.user.findByPk(id);
@@ -82,6 +84,23 @@ class UserService{
         }
 
     } 
+}
+
+async function getRole(){
+    let role = await database.roles.findOne({
+        where:{
+            name: 'user'
+        }
+    })
+
+    if(!role){
+        role = await database.roles.create({
+            id: UUID.v4(),
+            name: 'user',
+            description: 'perfil de usuário'
+        })
+    }
+    return role;
 }
 
 module.exports = UserService;
