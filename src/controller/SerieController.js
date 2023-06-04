@@ -12,6 +12,66 @@ class SerieController{
         }
 
     }
+
+    static async getSeriesFavorites(request,response){
+        const{idSerie} = request.body;
+        const{userId} = request;
+        
+        try{
+            const favorites = await serieService.getSeriesFavorites({idSerie, userId});
+            return response.status(201).json(favorites);
+        }catch(error){
+            return response.status(400).json({message: error.message});
+        }
+    }
+
+    static async update(request, response){
+        const {id} = request.params
+        const{name, seasons, episodes, rottenTomatoes, summary, img,cast} = request.body
+
+        try {
+            const updateFields = {};
+            const fields = {name, seasons, episodes, rottenTomatoes, summary, img,cast}
+            
+            for (const key in fields) {
+                if (fields[key]) {
+                    updateFields[key] = fields[key];
+                }
+            }
+    
+            const updatedSerie = await serieService.update(id, updateFields)
+
+            return response.status(200).json(updatedSerie);
+        } catch (error) {
+            return response.status(400).json({message: error.message});
+        }
+    }
+
+    static async getAll(request, response){
+        try {
+            return response.status(200).json(await serieService.getAll());
+        } catch (error) {
+            return response.status(400).json({message: error.message});
+        }
+    }
+
+    static async getById(request, response){
+        const {id} = request.params
+        try {
+            return response.status(200).json(await serieService.getById(id))
+        } catch (error) {
+            return response.status(400).json({message: error.message});
+        }
+    }
+
+    static async deleteById(request, response){
+        const {id} = request.params
+        try {
+            return response.status(200).json(await serieService.deleteById(id))
+        } catch (error) {
+            return response.status(400).json({message: error.message});
+        }
+    }
 }
 
 module.exports = SerieController;

@@ -14,6 +14,31 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'roleId',
         as: 'user_role'
       })
+
+      user.belongsToMany(models.serie,{
+        foreignKey: 'userId',
+        through: 'user_serie_favorites',
+        as: 'favoritesList'  
+      })
+
+      user.belongsToMany(models.serie,{
+        foreignKey: 'userId',
+        through: 'user_serie_disliked',
+        as: 'dislikedList'  
+      })
+
+      user.belongsToMany(models.serie,{
+        foreignKey: 'userId',
+        through: 'user_serie_watched',
+        as: 'watchedList'  
+      })
+
+      user.belongsToMany(models.serie,{
+        foreignKey: 'userId',
+        through: 'user_serie_desired',
+        as: 'desiredList'  
+      })
+
     }
   }
   user.init({
@@ -22,7 +47,6 @@ module.exports = (sequelize, DataTypes) => {
     email: DataTypes.STRING,
     password: DataTypes.STRING,
     photo: DataTypes.BLOB,
-
   }, {
     sequelize,
     timestamps: false,
