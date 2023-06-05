@@ -97,9 +97,10 @@ class UserService{
               }
           })  
           
-          const user = await database.user.findByPk(dto.userId);
-
-          //await user.addFavoritesList(serie);
+          if(!serie){
+            throw new Error("Série não encontrada no banco de dados!");
+          }
+          
           await database.user_serie_favorites.create({
             userId: dto.userId,
             serieId: dto.idSerie
@@ -118,7 +119,7 @@ class UserService{
          
         } catch (error) {
              console.log(error)
-             throw new Error("Erro ao cadastrar ao usuario")
+             throw new Error("Erro ao tentar adicionar série na lista: "+error)
         }
  
         
