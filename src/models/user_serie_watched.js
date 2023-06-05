@@ -15,7 +15,7 @@ module.exports = (sequelize, DataTypes) => {
   }
   user_serie_watched.init({
     userId: DataTypes.UUID,
-    serieId: DataTypes.UUID
+    serieId: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'user_serie_watched',

@@ -14,7 +14,6 @@ class SerieService{
             }    
     
             const newSerie = await database.serie.create({
-                id: UUID.v4(),
                 name: serieDTO.name,
                 seasons: serieDTO.seasons,
                 episodes: serieDTO.episodes,

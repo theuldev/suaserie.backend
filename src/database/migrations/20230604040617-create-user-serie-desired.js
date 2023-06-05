@@ -19,7 +19,7 @@ module.exports = {
         onUpdate: 'CASCADE'
       }, 
       serieId: {
-        type: Sequelize.UUID,
+        type: Sequelize.INTEGER,
         references:{
           model: 'series',
           key: 'id'
