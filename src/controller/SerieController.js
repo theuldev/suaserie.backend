@@ -13,18 +13,6 @@ class SerieController{
 
     }
 
-    static async getSeriesFavorites(request,response){
-        const{idSerie} = request.body;
-        const{userId} = request;
-        
-        try{
-            const favorites = await serieService.getSeriesFavorites({idSerie, userId});
-            return response.status(201).json(favorites);
-        }catch(error){
-            return response.status(400).json({message: error.message});
-        }
-    }
-
     static async update(request, response){
         const {id} = request.params
         const{name, seasons, episodes, rottenTomatoes, summary, img,cast} = request.body

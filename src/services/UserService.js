@@ -74,16 +74,57 @@ class UserService{
         return user;
     }
 
-    async update(id, updateFields){ // Refatorar depois, possui três chamadas ao banco de dados. 
+    async update(id, updateFields){ 
         const user = await this.getById(id);
         try {            
-            await database.user.update(updateFields, { where: { id: id }, returning: true });
-            return await database.user.findByPk(id);
+
+            Object.assign(user, updateFields)
+            const updatedUser = await user.save();
+
+            return updatedUser;
         } catch (error) {
+            console.log(error)
             throw new Error("Erro ao tentar atualizar o usuário!");
         }
+    }
+    
+    
+    async addFavoriteSerie(dto){
+        try {
+          const serie = await database.serie.findOne({
+              where:{
+                  id: dto.idSerie
+              }
+          })  
+          
+          const user = await database.user.findByPk(dto.userId);
 
-    } 
+          //await user.addFavoritesList(serie);
+          await database.user_serie_favorites.create({
+            userId: dto.userId,
+            serieId: dto.idSerie
+          })
+          const favorites = await database.user.findByPk(dto.userId, {
+             include:{
+                 association: 'favoritesList',
+                 through: { 
+                     attributes: [],
+                   },
+             } 
+           });
+ 
+ 
+           return favorites
+         
+        } catch (error) {
+             console.log(error)
+             throw new Error("Erro ao cadastrar ao usuario")
+        }
+ 
+        
+     }
+
+
 }
 
 async function getRole(){

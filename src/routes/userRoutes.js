@@ -22,4 +22,6 @@ router.get('/info-user',roles(['user', 'adm']), UserController.infoUser);
 router.put('/update-me',roles(['adm', 'user']), UserController.updateMe);
 
 router.delete('/delete-me',roles(['adm', 'user']), UserController.deleteMe);
+
+router.post('/series-fav', roles(['adm', 'user']), UserController.addFavoriteSerie);
 module.exports = router;

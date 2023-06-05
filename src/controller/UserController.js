@@ -166,6 +166,18 @@ class UserController {
             response.status(404).json({message: error.message});
         }
     }
+
+    static async addFavoriteSerie(request,response){
+        const{idSerie} = request.body;
+        const{userId} = request;
+        
+        try{
+            const favorites = await userService.addFavoriteSerie({idSerie, userId});
+            return response.status(201).json(favorites);
+        }catch(error){
+            return response.status(400).json({message: error.message});
+        }
+    }
     
 }
 

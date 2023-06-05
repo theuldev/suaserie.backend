@@ -1,5 +1,4 @@
 const database = require('../models');
-const UUID = require('uuid');
 class SerieService{
     async create(serieDTO){
         try {
@@ -47,18 +46,14 @@ class SerieService{
             return serie;
         } catch (error) {
             console.log(error)
-            throw new Error("Erro ao tentar buscar série!" + error)
+            throw new Error("Erro ao tentar buscar série!: " + error)
         }
     }
 
     async update(id, updateFields){
         
         try {
-            const serie = await database.serie.findByPk(id)
-
-            if(!serie){
-                throw new Error("Série não encontrada no banco de dados!");
-            }
+            const serie = this.getById(id);
             
             Object.assign(serie, updateFields)
             const updatedSerie = await serie.save();
@@ -71,11 +66,7 @@ class SerieService{
 
     async deleteById(id){
         try {
-            const serie = await database.serie.findByPk(id)
-
-            if(!serie){
-                throw new Error("Série não encontrada no banco de dados!");
-            }
+            const serie = this.getById(id);
 
             await serie.destroy();
 
@@ -83,39 +74,6 @@ class SerieService{
             console.log(error)
             throw new Error(error);
         }
-    }
-
-    
-
-    async getSeriesFavorites(dto){
-       try {
-         const serie = await database.serie.findOne({
-             where:{
-                 id: dto.idSerie
-             }
-         })  
-         
-         const user = await database.user.findByPk(dto.userId);
-         await user.addFavoritesList(serie);
-         const favorites = await database.user.findByPk(dto.userId, {
-            include:{
-                association: 'favoritesList',
-                through: { 
-                    attributes: [],
-                  },
-            } 
-          });
-
-
-          return favorites.favoritesList;
-
-        
-       } catch (error) {
-            console.log(error)
-            throw new Error("Erro ao cadastrar ao usuario")
-       }
-
-       
     }
     
 }
