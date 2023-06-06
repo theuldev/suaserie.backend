@@ -125,6 +125,52 @@ class UserService{
         
      }
 
+     async removeFavoriteSerie(dto){
+        try {
+            console.log('teste');
+            const serie = await database.serie.findOne({
+                where:{
+                    id: dto.id
+                }
+            })  
+            
+            console.log('teste2')
+            if(!serie){
+                throw new Error("Série não encontrada no banco de dados!");
+            }
+
+            await database.user_serie_favorites.destroy({ 
+                where:{
+                    userId: dto.userId,
+                    serieId: dto.id
+                }
+                
+            })
+        } catch (error) {
+            console.log(error)
+            throw new Error("Erro ao tentar remove série da lista de favoritos: "+error);
+        }
+     }
+
+     async getFavoriteSeries(userId){
+        const user = await database.user.findByPk(userId, {
+            include:{
+                association: 'favoritesList',
+                through: { 
+                    attributes: [],
+                  },
+            } 
+          });
+          
+
+          if(!user){
+            console.log(error)
+            throw new Error("Usuário não cadastrado!")
+          }
+
+          return user.favoritesList
+     }
+
 
 }
 

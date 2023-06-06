@@ -5,23 +5,25 @@ const roles = require('../middleware/roles');
 
 const router = Router();
 
-router.post('/create-user', UserController.createUser);
+router.post('/user/create', UserController.createUser);
 
 router.use(authenticated);
 
-router.put('/update-user/:id',roles(['adm']), UserController.updateUser);
+router.put('user/update/:id',roles(['adm']), UserController.updateUser);
 
-router.get('/get-users',roles(['adm']), UserController.getUsers);
+router.get('/user/get',roles(['adm']), UserController.getUsers);
 
-router.get('/get-users/:id',roles(['adm']), UserController.getUserById);
+router.get('/user/get/:id',roles(['adm']), UserController.getUserById);
 
-router.delete('/delete/:id',roles(['adm']), UserController.deleteById);
+router.delete('/user/delete/:id',roles(['adm']), UserController.deleteById);
 
-router.get('/info-user',roles(['user', 'adm']), UserController.infoUser);
+router.get('/user/info',roles(['user', 'adm']), UserController.infoUser);
 
-router.put('/update-me',roles(['adm', 'user']), UserController.updateMe);
+router.put('/user/update-me',roles(['adm', 'user']), UserController.updateMe);
 
-router.delete('/delete-me',roles(['adm', 'user']), UserController.deleteMe);
+router.delete('/user/delete-me',roles(['adm', 'user']), UserController.deleteMe);
 
-router.post('/series-fav', roles(['adm', 'user']), UserController.addFavoriteSerie);
+router.post('/user/series-fav', roles(['adm', 'user']), UserController.addFavoriteSerie);
+router.delete('/user/series-fav/remove/:id', roles(['adm', 'user']), UserController.removeFavoriteSerie);
+router.get('/user/series-fav', roles(['adm', 'user']), UserController.getFavoriteSeries);
 module.exports = router;

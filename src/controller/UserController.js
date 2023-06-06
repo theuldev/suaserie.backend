@@ -178,6 +178,29 @@ class UserController {
             return response.status(400).json({message: error.message});
         }
     }
+
+    static async removeFavoriteSerie(request, response){
+        const{id} = request.params;
+        const{userId} = request;
+        try{
+            await userService.removeFavoriteSerie({id, userId});
+            return response.sendStatus(204);
+        }catch(error){
+            return response.status(400).json({message: error.message});
+        }
+    }
+
+    static async getFavoriteSeries(request, response){
+        const{userId} = request;
+
+        try {
+            return response.status(200).json(await userService.getFavoriteSeries(userId))
+        } catch (error) {
+            return response.status(400).json({message: error.message});
+        }
+
+
+    }
     
 }
 
