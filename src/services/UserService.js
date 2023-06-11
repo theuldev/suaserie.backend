@@ -171,6 +171,243 @@ class UserService{
           return user.favoritesList
      }
 
+     async addWatchedSerie(dto){
+        try {
+            const serie = await database.serie.findOne({
+                where:{
+                    id: dto.id
+                }
+            })  
+
+            if(!serie){
+                throw new Error("Série não encontrada no banco de dados!");
+              }
+
+            await database.user_serie_watched.create({
+                userId: dto.userId,
+                serieId: dto.id
+            })
+
+            const watchedList = await database.user.findByPk(dto.userId, {
+                include:{
+                    association: 'watchedList',
+                    through: { 
+                        attributes: [],
+                      },
+                } 
+              });
+
+              return watchedList;
+
+        } catch (error) {
+            throw new Error("Não foi possivel adicionar essa série a lista "+ error);
+        }
+     }
+
+
+     async removeWatchedSerie(dto){
+        try {
+            const serie = await database.serie.findOne({
+                where:{
+                    id: dto.id
+                }
+            })  
+            
+            if(!serie){
+                throw new Error("Série não encontrada no banco de dados!");
+            }
+
+            await database.user_serie_watched.destroy({ 
+                where:{
+                    userId: dto.userId,
+                    serieId: dto.id
+                }
+                
+            })
+        } catch (error) {
+            console.log(error)
+            throw new Error("Erro ao tentar remover série da lista de assistidas: "+error);
+        }
+     }
+
+     async getWatchedSeries(userId){
+        const user = await database.user.findByPk(userId, {
+            include:{
+                association: 'watchedList',
+                through: { 
+                    attributes: [],
+                  },
+            } 
+          });
+          
+
+          if(!user){
+            console.log(error)
+            throw new Error("Usuário não cadastrado!")
+          }
+
+          return user.watchedList;
+     }
+
+     async addDislikedSerie(dto){
+        try {
+            const serie = await database.serie.findOne({
+                where:{
+                    id: dto.id
+                }
+            })  
+
+            if(!serie){
+                throw new Error("Série não encontrada no banco de dados!");
+              }
+
+            await database.user_serie_disliked.create({
+                userId: dto.userId,
+                serieId: dto.id
+            })
+
+            const dislikedList = await database.user.findByPk(dto.userId, {
+                include:{
+                    association: 'dislikedList',
+                    through: { 
+                        attributes: [],
+                      },
+                } 
+              });
+
+
+
+              return dislikedList;
+
+        } catch (error) {
+            throw new Error("Não foi possivel adicionar essa série a lista "+ error);
+        }
+     }
+
+     async removeDislikedSerie(dto){
+        try {
+            const serie = await database.serie.findOne({
+                where:{
+                    id: dto.id
+                }
+            })  
+            
+            if(!serie){
+                throw new Error("Série não encontrada no banco de dados!");
+            }
+
+            await database.user_serie_disliked.destroy({ 
+                where:{
+                    userId: dto.userId,
+                    serieId: dto.id
+                }
+                
+            })
+        } catch (error) {
+            console.log(error)
+            throw new Error("Erro ao tentar remover série da lista de dislike: "+error);
+        }
+     }
+
+
+     async getDislikedSeries(userId){
+        const user = await database.user.findByPk(userId, {
+            include:{
+                association: 'dislikedList',
+                through: { 
+                    attributes: [],
+                  },
+            } 
+          });
+          
+
+          if(!user){
+            console.log(error)
+            throw new Error("Usuário não cadastrado!")
+          }
+
+          return user.dislikedList;
+     }
+
+     async addDesiredSerie(dto){
+        try {
+            const serie = await database.serie.findOne({
+                where:{
+                    id: dto.id
+                }
+            })  
+
+            if(!serie){
+                throw new Error("Série não encontrada no banco de dados!");
+              }
+
+            await database.user_serie_desired.create({
+                userId: dto.userId,
+                serieId: dto.id
+            })
+
+            const desiredList = await database.user.findByPk(dto.userId, {
+                include:{
+                    association: 'desiredList',
+                    through: { 
+                        attributes: [],
+                      },
+                } 
+              });
+
+
+
+              return desiredList;
+
+        } catch (error) {
+            throw new Error("Não foi possivel adicionar essa série a lista "+ error);
+        }
+     }
+
+
+     async removeDesiredSerie(dto){
+        try {
+            const serie = await database.serie.findOne({
+                where:{
+                    id: dto.id
+                }
+            })  
+            
+            if(!serie){
+                throw new Error("Série não encontrada no banco de dados!");
+            }
+
+            await database.user_serie_desired.destroy({ 
+                where:{
+                    userId: dto.userId,
+                    serieId: dto.id
+                }
+                
+            })
+        } catch (error) {
+            console.log(error)
+            throw new Error("Erro ao tentar remover série da lista de dislike: "+error);
+        }
+     }
+
+     async getDesiredSeries(userId){
+        const user = await database.user.findByPk(userId, {
+            include:{
+                association: 'desiredList',
+                through: { 
+                    attributes: [],
+                  },
+            } 
+          });
+          
+
+          if(!user){
+            console.log(error)
+            throw new Error("Usuário não cadastrado!")
+          }
+
+          return user.desiredList;
+     }
 
 }
 

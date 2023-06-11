@@ -198,8 +198,108 @@ class UserController {
         } catch (error) {
             return response.status(400).json({message: error.message});
         }
+    }
+
+    static async addWatchedSerie(request, response){
+        const{id} = request.params
+        const{userId} = request;
+
+        try{
+            const watchedSeries = await userService.addWatchedSerie({id, userId});
+            return response.status(201).json(watchedSeries)
+        }catch(error){
+            return response.status(400).json({message: error.message});
+        }
+    }
 
 
+    static async removeWatchedSerie(request, response){
+        const{id} = request.params;
+        const{userId} = request;
+        try{
+            await userService.removeWatchedSerie({id, userId});
+            return response.sendStatus(204);
+        }catch(error){
+            return response.status(400).json({message: error.message});
+        }
+    }
+
+    static async getWatchedSeries(request, response){
+        const{userId} = request;
+
+        try {
+            return response.status(200).json(await userService.getWatchedSeries(userId))
+        } catch (error) {
+            return response.status(400).json({message: error.message});
+        }
+    }
+
+    static async addDislikedSerie(request, response){
+        const{id} = request.params
+        const{userId} = request;
+
+        try{
+            const dislikedSeries = await userService.addDislikedSerie({id, userId});
+            return response.status(201).json(dislikedSeries)
+        }catch(error){
+            return response.status(400).json({message: error.message});
+        }
+    }
+
+    static async removeDislikedSerie(request, response){
+        const{id} = request.params;
+        const{userId} = request;
+        try{
+            await userService.removeDislikedSerie({id, userId});
+            return response.sendStatus(204);
+        }catch(error){
+            return response.status(400).json({message: error.message});
+        }
+    }
+
+    static async getDislikedSeries(request, response){
+        const{userId} = request;
+
+        try {
+            return response.status(200).json(await userService.getDislikedSeries(userId))
+        } catch (error) {
+            return response.status(400).json({message: error.message});
+        }
+    }
+
+
+    static async addDesiredSerie(request, response){
+        const{id} = request.params
+        const{userId} = request;
+
+        try{
+            const desiredSeries = await userService.addDesiredSerie({id, userId});
+            return response.status(201).json(desiredSeries)
+        }catch(error){
+            return response.status(400).json({message: error.message});
+        }
+    }
+
+
+    static async removeDesiredSerie(request, response){
+        const{id} = request.params;
+        const{userId} = request;
+        try{
+            await userService.removeDesiredSerie({id, userId});
+            return response.sendStatus(204);
+        }catch(error){
+            return response.status(400).json({message: error.message});
+        }
+    }
+
+    static async getDesiredSeries(request, response){
+        const{userId} = request;
+
+        try {
+            return response.status(200).json(await userService.getDesiredSeries(userId))
+        } catch (error) {
+            return response.status(400).json({message: error.message});
+        }
     }
     
 }

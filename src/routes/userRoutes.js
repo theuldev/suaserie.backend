@@ -24,6 +24,27 @@ router.put('/user/update-me',roles(['adm', 'user']), UserController.updateMe);
 router.delete('/user/delete-me',roles(['adm', 'user']), UserController.deleteMe);
 
 router.post('/user/series-fav', roles(['adm', 'user']), UserController.addFavoriteSerie);
+
 router.delete('/user/series-fav/remove/:id', roles(['adm', 'user']), UserController.removeFavoriteSerie);
+
 router.get('/user/series-fav', roles(['adm', 'user']), UserController.getFavoriteSeries);
+
+router.post('/user/series-watched/:id', roles(['adm', 'user']), UserController.addWatchedSerie);
+
+router.get('/user/series-watched', roles(['adm', 'user']), UserController.getWatchedSeries);
+
+router.delete('/user/series-watched/remove/:id', roles(['adm', 'user']), UserController.removeWatchedSerie);
+
+router.post('/user/series-disliked/:id', roles(['adm', 'user']), UserController.addDislikedSerie);
+
+router.get('/user/series-disliked', roles(['adm', 'user']), UserController.getDislikedSeries);
+
+router.delete('/user/series-disliked/remove/:id', roles(['adm', 'user']), UserController.removeDislikedSerie);
+
+router.post('/user/series-desired/:id', roles(['adm', 'user']), UserController.addDesiredSerie);
+
+router.get('/user/series-desired', roles(['adm', 'user']), UserController.getDesiredSeries);
+
+router.delete('/user/series-desired/remove/:id', roles(['adm', 'user']), UserController.removeDesiredSerie);
+
 module.exports = router;
