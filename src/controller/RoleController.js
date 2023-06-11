@@ -11,6 +11,15 @@ class RoleController{
             return response.status(400).json({message: error.message});
         }
     }
+
+
+    static async getRoles(request, response){
+        try {
+            return response.status(200).json(await roleService.getRoles())
+        } catch (error) {
+            throw new Error("Não foi possível buscar as roles: " + error)
+        }
+    }
 }
 
 module.exports = RoleController;

@@ -25,6 +25,17 @@ class RoleService{
         }
 
     }
+
+
+    async getRoles(){
+        const roles = await database.roles.findAll();
+        if(!roles){
+            throw new Error("Não há roles cadastradas!");
+        }
+
+        return roles;
+
+    }
 }
 
 module.exports= RoleService;
