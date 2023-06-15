@@ -4,7 +4,7 @@ const app = require('./config/express-conf')
 
 require('./migrate');
 
-const PORT = 3000;
+const PORT = 3001;
 
 connection.authenticate().then(() =>{
     console.log("Connection with database sucessful!")
