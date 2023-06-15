@@ -21,6 +21,8 @@ router.get('/user/info',roles(['user', 'adm']), UserController.infoUser);
 
 router.put('/user/update-me',roles(['adm', 'user']), UserController.updateMe);
 
+router.put('/user/change-password',roles(['adm', 'user']), UserController.changePassword);
+
 router.delete('/user/delete-me',roles(['adm', 'user']), UserController.deleteMe);
 
 router.post('/user/series-fav', roles(['adm', 'user']), UserController.addFavoriteSerie);
@@ -46,5 +48,7 @@ router.post('/user/series-desired/:id', roles(['adm', 'user']), UserController.a
 router.get('/user/series-desired', roles(['adm', 'user']), UserController.getDesiredSeries);
 
 router.delete('/user/series-desired/remove/:id', roles(['adm', 'user']), UserController.removeDesiredSerie);
+
+
 
 module.exports = router;

@@ -155,6 +155,18 @@ class UserController {
         }
     }
 
+    static async changePassword(request, response){
+        const{userId} = request;
+        const {oldPassword, newPassword} = request.body;
+
+        try {
+            await userService.changePassword({userId, oldPassword, newPassword})
+            return response.sendStatus(200);
+        } catch (error) {
+            return response.status(400).json({message: error.message});
+        }
+    }
+
     static async deleteMe(request,response){
         const{userId} = request;
         try{

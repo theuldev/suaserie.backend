@@ -1,5 +1,6 @@
 const database = require('../models')
 const { where } = require('sequelize')
+const {compare} = require('bcryptjs')
 const {hash} = require('bcryptjs');
 const UUID = require('uuid');
 class UserService{
@@ -88,7 +89,26 @@ class UserService{
         }
     }
     
-    
+    async changePassword(dto){
+        const user = await database.user.findByPk(dto.userId,{
+            attributes: {include: ['password']}
+        });
+
+        try {
+            const samePasswords = await compare(dto.oldPassword, user.password)
+            if(!samePasswords){
+                throw new Error("Senha atual incorreta!");
+            }
+
+            const newPasswordHash = await hash(dto.newPassword, 8);
+        
+            user.password = newPasswordHash;
+            await user.save();
+        } catch (error) {
+            throw new Error(error.message)
+        }
+    }
+
     async addFavoriteSerie(dto){
         try {
           const serie = await database.serie.findOne({
