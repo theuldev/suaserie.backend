@@ -19,9 +19,8 @@ class UserController {
             if(errorResponse){
                 return response.status(400).json(errorResponse);
             }
-            const userDTO = new UserDTO(request.body)
-
-            const user = await userService.create(userDTO)
+            const {name, lastname, nickname, email, password, photo} = request.body
+            const user = await userService.create({name, lastname, nickname, email, password, photo})
 
             return response.status(201).json({user});
             
@@ -31,9 +30,8 @@ class UserController {
         }
         
     }
-
-    // metodos para o adm gerenciar os usuarios
     //-----------------------------------------------------------------------------------------------------------------------------------------------
+    // metodos para o adm gerenciar os usuarios
     static async updateUser(request, response) {
         try {
             const { id } = request.params;

@@ -25,6 +25,7 @@ class UserService{
                 nickname: userDTO.nickname,
                 lastname: userDTO.lastname,
                 email: userDTO.email,
+                photo: userDTO.photo,
                 password: passwordHash,
                 roleId: role.id
             })
