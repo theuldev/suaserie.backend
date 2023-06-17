@@ -313,6 +313,30 @@ class UserController {
             return response.status(400).json({message: error.message});
         }
     }
+
+    static async makeRating(request, response){
+        const {userId} = request
+        const{serieId, rating} = request.body
+        try {
+            const makeRating = await userService.makeRating({userId, serieId, rating});
+            return response.status(200).json(makeRating)
+        } catch (error) {
+            console.log(error)
+            return response.status(400).json({message: error.message})
+        }
+    }
+
+    static async getRating(request, response){
+        const {userId} = request
+        const{serieId} = request.params
+        try {
+            const rating = await userService.getRating({userId, serieId});
+            return response.status(200).json(rating)
+        } catch (error) {
+            console.log(error)
+            return response.status(400).json({message: error.message})
+        }
+    }
     
 }
 

@@ -34,16 +34,22 @@ module.exports = (sequelize, DataTypes) => {
         as: 'series_desired'
       })
 
+      serie.hasMany(models.rating,{
+        foreignKey:'serieId',
+        as: 'serie_rating'
+      })
+
     }
   }
   serie.init({
     name: DataTypes.STRING,
     seasons: DataTypes.INTEGER,
     episodes: DataTypes.INTEGER,
-    rottenTomatoes: DataTypes.DECIMAL,
+    rottenTomatoes: DataTypes.INTEGER,
     summary: DataTypes.TEXT,
     cast: DataTypes.TEXT,
-    img: DataTypes.BLOB
+    img: DataTypes.BLOB,
+    releaseYear: DataTypes.INTEGER  
   }, {
     sequelize,
     modelName: 'serie',

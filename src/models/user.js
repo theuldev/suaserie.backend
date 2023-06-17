@@ -39,6 +39,11 @@ module.exports = (sequelize, DataTypes) => {
         as: 'desiredList'  
       })
 
+      user.hasMany(models.rating,{
+        foreignKey: 'userId',
+        as: 'userRating'
+      })
+
     }
   }
   user.init({

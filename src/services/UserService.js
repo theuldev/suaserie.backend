@@ -3,6 +3,7 @@ const { where } = require('sequelize')
 const {compare} = require('bcryptjs')
 const {hash} = require('bcryptjs');
 const UUID = require('uuid');
+
 class UserService{
     async create(userDTO){
         try {
@@ -427,6 +428,75 @@ class UserService{
           }
 
           return user.desiredList;
+     }
+
+     async makeRating(dto){
+        try {
+            const serie = await database.serie.findOne({
+                where:{
+                    id: dto.serieId
+                }
+            })  
+    
+            if(!serie){
+                throw new Error("Série não encontrada no banco de dados!");
+            }
+            
+            const rating = await database.rating.findOne({
+                where:{
+                    userId: dto.userId,
+                    serieId: dto.serieId
+                }
+            })
+
+            if(rating){
+                rating.rating = dto.rating;
+                await rating.save();
+                return rating;
+            }
+
+            const newRating = await database.rating.create({
+                rating: dto.rating,
+                userId: dto.userId,
+                serieId: dto.serieId
+            })
+
+            return newRating;
+        } catch (error) {
+            console.error(error)
+            throw new Error({message: error.message})
+        }
+
+     }
+
+     async getRating(dto){
+        try {
+            const serie = await database.serie.findOne({
+                where:{
+                    id: dto.serieId
+                }
+            })  
+
+            if(!serie){
+                throw new Error("Série não encontrada no banco de dados!");
+            }
+
+            const rating = await database.rating.findOne({
+                where:{
+                    userId: dto.userId,
+                    serieId: dto.serieId
+                }
+            })
+
+            if(!rating){
+                throw new Error("Série não encontrada no banco de dados!");
+            }
+
+            return rating.rating;
+
+        } catch (error) {
+            throw new Error(error.message);
+        }
      }
 
 }

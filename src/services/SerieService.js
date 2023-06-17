@@ -19,7 +19,8 @@ class SerieService{
                 rottenTomatoes: serieDTO.rottenTomatoes,
                 summary: serieDTO.summary,
                 img: serieDTO.img,
-                cast: serieDTO.cast
+                cast: serieDTO.cast,
+                releaseYear: serieDTO.releaseYear
             })
     
             return newSerie;
@@ -66,7 +67,7 @@ class SerieService{
 
     async deleteById(id){
         try {
-            const serie = this.getById(id);
+            const serie = await this.getById(id);
 
             await serie.destroy();
 

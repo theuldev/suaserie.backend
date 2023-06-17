@@ -19,7 +19,7 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       rottenTomatoes: {
-        type: Sequelize.DECIMAL
+        type: Sequelize.INTEGER
       },
       summary: {
         type: Sequelize.TEXT
@@ -29,6 +29,9 @@ module.exports = {
       },
       img: {
         type: Sequelize.BLOB
+      },
+      releaseYear:{
+        type: Sequelize.INTEGER
       }
     },{
       timestamps: false

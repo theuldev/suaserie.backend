@@ -49,6 +49,9 @@ router.get('/user/series-desired', roles(['adm', 'user']), UserController.getDes
 
 router.delete('/user/series-desired/remove/:id', roles(['adm', 'user']), UserController.removeDesiredSerie);
 
+router.post('/user/rating', roles(['adm', 'user']), UserController.makeRating);
+
+router.get('/user/rating/:serieId', roles(['adm', 'user']), UserController.getRating);
 
 
 module.exports = router;
