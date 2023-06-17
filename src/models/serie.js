@@ -52,7 +52,7 @@ module.exports = (sequelize, DataTypes) => {
     rottenTomatoes: DataTypes.INTEGER,
     summary: DataTypes.TEXT,
     cast: DataTypes.TEXT,
-    img: DataTypes.BLOB,
+    img: DataTypes.STRING,
     releaseYear: DataTypes.INTEGER,
     url: DataTypes.STRING  
   }, {

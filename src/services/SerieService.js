@@ -28,6 +28,7 @@ class SerieService{
                 img: serieDTO.img,
                 cast: serieDTO.cast,
                 releaseYear: serieDTO.releaseYear,
+                url: serieDTO.url,
                 streamingId: streaming.id
             })
             

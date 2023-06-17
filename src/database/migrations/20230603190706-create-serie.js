@@ -28,7 +28,7 @@ module.exports = {
         type: Sequelize.TEXT
       },
       img: {
-        type: Sequelize.BLOB
+        type: Sequelize.STRING
       },
       releaseYear:{
         type: Sequelize.INTEGER

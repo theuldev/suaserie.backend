@@ -25,7 +25,7 @@ module.exports = {
         type: Sequelize.STRING
       },
       photo:{
-        type: Sequelize.BLOB
+        type: Sequelize.STRING
       },
       roleId:{
         type: Sequelize.UUID,
