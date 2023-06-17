@@ -19,8 +19,8 @@ class UserController {
             if(errorResponse){
                 return response.status(400).json(errorResponse);
             }
-            const {name, lastname, nickname, email, password, photo} = request.body
-            const user = await userService.create({name, lastname, nickname, email, password, photo})
+            const {name, lastname, nickname, email, password, photo, confirmPassword} = request.body
+            const user = await userService.create({name, lastname, nickname, email, password, photo,confirmPassword})
 
             return response.status(201).json({user});
             

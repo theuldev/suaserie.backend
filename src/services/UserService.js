@@ -18,6 +18,10 @@ class UserService{
                 throw new Error("Email já cadastrado no sistema!");    
             }
 
+            if(userDTO.password !== userDTO.confirmPassword){
+                throw new Error("As senhas não conferem!");
+            }
+
             const role  = await getRole(); 
             
             const passwordHash = await hash(userDTO.password, 8);
@@ -34,8 +38,8 @@ class UserService{
             const email = newUser.email;
             const password = userDTO.password;
 
-            
             const acessToken =  await authService.login({email, password})
+
             const userResponse = new UserResponse({
                 id: newUser.id,
                 name: newUser.name,
@@ -45,8 +49,6 @@ class UserService{
                 photo: newUser.photo,
                 acessToken: acessToken
             });
-            //return newUser;
-            //return ({newUser, acessToken});
             return userResponse;
             
         } catch (error) {
