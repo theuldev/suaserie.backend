@@ -39,6 +39,10 @@ module.exports = (sequelize, DataTypes) => {
         as: 'serie_rating'
       })
 
+      serie.belongsTo(models.streaming,{
+        foreignKey: 'streamingId',
+        as: 'serie_streaming'
+      })
     }
   }
   serie.init({
@@ -49,7 +53,8 @@ module.exports = (sequelize, DataTypes) => {
     summary: DataTypes.TEXT,
     cast: DataTypes.TEXT,
     img: DataTypes.BLOB,
-    releaseYear: DataTypes.INTEGER  
+    releaseYear: DataTypes.INTEGER,
+    url: DataTypes.STRING  
   }, {
     sequelize,
     modelName: 'serie',

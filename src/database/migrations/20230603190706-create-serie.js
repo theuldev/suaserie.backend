@@ -32,6 +32,20 @@ module.exports = {
       },
       releaseYear:{
         type: Sequelize.INTEGER
+      },
+
+      url:{
+        type: Sequelize.STRING
+      },
+      streamingId:{
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        refereces:{
+          model: 'streamings',
+          key:'id'
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE'
       }
     },{
       timestamps: false

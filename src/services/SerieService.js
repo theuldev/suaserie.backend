@@ -11,7 +11,14 @@ class SerieService{
             if(serie){
                 throw new Error("Série já cadastrada no banco de dados!")
             }    
-    
+            
+            const streaming = await database.streaming.findOne({
+                where: {
+                    name: 'netflix'
+                }
+            })
+
+            
             const newSerie = await database.serie.create({
                 name: serieDTO.name,
                 seasons: serieDTO.seasons,
@@ -20,9 +27,11 @@ class SerieService{
                 summary: serieDTO.summary,
                 img: serieDTO.img,
                 cast: serieDTO.cast,
-                releaseYear: serieDTO.releaseYear
+                releaseYear: serieDTO.releaseYear,
+                streamingId: streaming.id
             })
-    
+            
+            
             return newSerie;
         } catch (error) {
             console.log(error);
@@ -32,8 +41,15 @@ class SerieService{
 
     async getAll(){
         try {
-            return await database.serie.findAll();
+            return await database.serie.findAll({
+                include:{
+                    model: database.streaming,
+                    as: 'serie_streaming',
+                    attributes: ['name', 'img']
+                }
+            });
         } catch (error) {
+            console.log(error)
             throw new Error("Não foi possível retornar as séries");
         }
     }
