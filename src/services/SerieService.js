@@ -7,7 +7,7 @@ class SerieService{
                     name: serieDTO.name
                 }
             })
-    
+           
             if(serie){
                 throw new Error("Série já cadastrada no banco de dados!")
             }    
@@ -54,7 +54,7 @@ class SerieService{
     async update(id, updateFields){
         
         try {
-            const serie = this.getById(id);
+            const serie = await this.getById(id);
             
             Object.assign(serie, updateFields)
             const updatedSerie = await serie.save();

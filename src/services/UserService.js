@@ -3,7 +3,9 @@ const { where } = require('sequelize')
 const {compare} = require('bcryptjs')
 const {hash} = require('bcryptjs');
 const UUID = require('uuid');
-
+const AuthService = require('./AuthService');
+const UserResponse = require('../response/UserResponse');
+const authService = new AuthService();
 class UserService{
     async create(userDTO){
         try {
@@ -29,9 +31,23 @@ class UserService{
                 password: passwordHash,
                 roleId: role.id
             })
-        
-            return newUser;
+            const email = newUser.email;
+            const password = userDTO.password;
+
             
+            const acessToken =  await authService.login({email, password})
+            const userResponse = new UserResponse({
+                id: newUser.id,
+                name: newUser.name,
+                lastname: newUser.lastname,
+                nickname: newUser.nickname,
+                email: newUser.email,
+                photo: newUser.photo,
+                acessToken: acessToken
+            });
+            //return newUser;
+            //return ({newUser, acessToken});
+            return userResponse;
             
         } catch (error) {
             throw new Error("Erro ao tentar cadastrar usuário. " + error.message);
