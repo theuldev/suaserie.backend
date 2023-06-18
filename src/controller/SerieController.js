@@ -15,11 +15,11 @@ class SerieController{
 
     static async update(request, response){
         const {id} = request.params
-        const{name, seasons, episodes, rottenTomatoes, summary, img,cast} = request.body
+        const{name, seasons, episodes, rottenTomatoes, summary, img,cast, releaseYear, url} = request.body
 
         try {
             const updateFields = {};
-            const fields = {name, seasons, episodes, rottenTomatoes, summary, img,cast}
+            const fields = {name, seasons, episodes, rottenTomatoes, summary, img,cast, releaseYear, url}
             
             for (const key in fields) {
                 if (fields[key]) {

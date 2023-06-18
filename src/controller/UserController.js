@@ -12,7 +12,7 @@ class UserController {
             await body('email').isEmail().normalizeEmail().withMessage("Email inválido!").run(request);
             await body('password').isLength({ min: 8 }).withMessage("Campo senha deve ter no mínimo 8 caracteres!").run(request);
             await body('name').isAlpha().withMessage('Campo nome deve conter apenas letras!').run(request);
-            await body('lastname').isAlpha().withMessage('Campo último nome deve conter apenas letras!').run(request);
+            //await body('lastname').isAlpha().withMessage('Campo último nome deve conter apenas letras!').run(request);
             
             const errorResponse = errorsValidator(request);
 
@@ -40,7 +40,7 @@ class UserController {
             await body('email').optional().isEmail().normalizeEmail().withMessage("Email inválido!").run(request);
             await body('name').optional({checkFalsy: true }).matches(/^[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ\s ]+$/).withMessage('Campo nome deve conter apenas letras!').run(request);
             await body('lastname').optional({checkFalsy: true }).matches(/^[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ\s ]+$/).withMessage('Campo último nome deve conter apenas letras!').run(request);
-            await body('nickname').optional().isAlphanumeric().isLength({ min: 5 }, {max:12 }).withMessage('Campo nickname deve conter apenas letras e números, seu tamanho deve está compreendido entre 5 e 12 caracteres!').run(request);
+            //await body('nickname').optional().isAlphanumeric().isLength({ min: 5 }, {max:12 }).withMessage('Campo nickname deve conter apenas letras e números, seu tamanho deve está compreendido entre 5 e 12 caracteres!').run(request);
              
         
             const errorResponse = errorsValidator(request);
@@ -121,12 +121,12 @@ class UserController {
 
     static async updateMe(request, response){
         const{userId} = request;
-        const { name, lastname, nickname, email} = request.body;
+        const { name, lastname, nickname, email, photo} = request.body;
         try {
             await body('email').optional().isEmail().normalizeEmail().withMessage("Email inválido!").run(request);
             await body('name').optional({checkFalsy: true }).matches(/^[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ\s ]+$/).withMessage('Campo nome deve conter apenas letras!').run(request);
             await body('lastname').optional({checkFalsy: true }).matches(/^[A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ\s ]+$/).withMessage('Campo último nome deve conter apenas letras!').run(request);
-            await body('nickname').optional().isAlphanumeric().isLength({ min: 5 }, {max:12 }).withMessage('Campo nickname deve conter apenas letras e números, seu tamanho deve está compreendido entre 5 e 12 caracteres!').run(request);
+            //await body('nickname').optional().isAlphanumeric().isLength({ min: 5 }, {max:12 }).withMessage('Campo nickname deve conter apenas letras e números, seu tamanho deve está compreendido entre 5 e 12 caracteres!').run(request);
              
         
             const errorResponse = errorsValidator(request);
@@ -136,7 +136,7 @@ class UserController {
             } 
             const updateFields = {};
 
-            const fields = { name, lastname, nickname, email };
+            const fields = { name, lastname, nickname, email, photo};
     
             for (const key in fields) {
                 if (fields[key]) {
@@ -333,6 +333,15 @@ class UserController {
         } catch (error) {
             console.log(error)
             return response.status(400).json({message: error.message})
+        }
+    }
+
+    static async createStreaming(request, response){
+        const{name,img} = request.body
+        try {
+            const newStreaming = await userService.createStreaming({name, img})
+        } catch (error) {
+            
         }
     }
     

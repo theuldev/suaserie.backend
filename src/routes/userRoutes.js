@@ -53,5 +53,7 @@ router.post('/user/rating', roles(['adm', 'user']), UserController.makeRating);
 
 router.get('/user/rating/:serieId', roles(['adm', 'user']), UserController.getRating);
 
+router.post('/user/create-streaming', roles(['adm', 'user']), UserController.createStreaming);
+
 
 module.exports = router;

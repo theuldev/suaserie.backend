@@ -508,7 +508,7 @@ class UserService{
             })
 
             if(!rating){
-                throw new Error("Série não encontrada no banco de dados!");
+                return 0
             }
 
             return rating.rating;
@@ -518,6 +518,24 @@ class UserService{
         }
      }
 
+     async createStreaming(dto){
+        const streaming = await database.streaming.findOne({
+            where:{
+                name: dto.name
+            }
+        })
+
+        if(streaming){
+            throw new Error("Sttraming já criada no banco de dados!");
+        }
+
+        const newStreaming = await database.streaming.create({
+            name: dto.name,
+            img: dto.img
+        })
+
+        return streaming;
+     }
 }
 
 async function getRole(){
