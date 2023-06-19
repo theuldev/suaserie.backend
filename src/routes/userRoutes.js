@@ -25,7 +25,7 @@ router.put('/user/change-password',roles(['adm', 'user']), UserController.change
 
 router.delete('/user/delete-me',roles(['adm', 'user']), UserController.deleteMe);
 
-router.post('/user/series-fav', roles(['adm', 'user']), UserController.addFavoriteSerie);
+router.post('/user/series-fav/:idSerie', roles(['adm', 'user']), UserController.addFavoriteSerie);
 
 router.delete('/user/series-fav/remove/:id', roles(['adm', 'user']), UserController.removeFavoriteSerie);
 

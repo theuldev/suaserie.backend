@@ -178,7 +178,7 @@ class UserController {
     }
 
     static async addFavoriteSerie(request,response){
-        const{idSerie} = request.body;
+        const{idSerie} = request.params;
         const{userId} = request;
         
         try{
